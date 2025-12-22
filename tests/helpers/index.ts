@@ -59,9 +59,6 @@ export {
     mockXhrRequests,
     MockedTsWebExtension,
     MockedTsWebExtensionMV3,
-    createMockTabsApi,
-    createMockDefaultFilteringLog,
-    createMockCompaniesDbService,
     SettingsApi,
     PageStatsApi,
 } from './mocks';

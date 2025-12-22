@@ -29,64 +29,11 @@ import {
 
 import { MockedEventCannel } from './event-channel';
 
-/**
- * Factory function for tabsApi mock used in both MV2 and MV3 tswebextension mocks.
- * Returns a fresh mock instance each time it's called.
- */
-export const createMockTabsApi = () => ({
-    onCreate: { subscribe: vi.fn() as unknown as () => void },
-    onUpdate: { subscribe: vi.fn() as unknown as () => void },
-    onDelete: { subscribe: vi.fn() as unknown as () => void },
-    onActivate: { subscribe: vi.fn() as unknown as () => void },
-    getTabContext: vi.fn() as unknown as () => void,
-    isIncognitoTab: vi.fn(() => false),
-});
-
-/**
- * Factory function for defaultFilteringLog mock used in both MV2 and MV3 tswebextension mocks.
- * Returns a fresh mock instance each time it's called.
- */
-export const createMockDefaultFilteringLog = () => ({
-    addEventListener: vi.fn() as unknown as () => void,
-    removeEventListener: vi.fn() as unknown as () => void,
-});
-
-/**
- * Factory function for companiesDbService mock used in both MV2 and MV3 tswebextension mocks.
- * Returns a fresh mock instance each time it's called.
- */
-export const createMockCompaniesDbService = () => ({
-    getCompaniesDbCategories: vi.fn(() => ({
-        audio_video_player: 'audio_video_player',
-        comments: 'comments',
-        customer_interaction: 'customer_interaction',
-        pornvertising: 'pornvertising',
-        advertising: 'advertising',
-        essential: 'essential',
-        site_analytics: 'site_analytics',
-        social_media: 'social_media',
-        misc: 'misc',
-        cdn: 'cdn',
-        hosting: 'hosting',
-        unknown: 'unknown',
-        extensions: 'extensions',
-        email: 'email',
-        consent: 'consent',
-        telemetry: 'telemetry',
-        mobile_analytics: 'mobile_analytics',
-    })),
-});
-
 // TODO: restore inherit from TsWebExtension after lib module resolves update if needed.
 export class MockedTsWebExtension {
     public isStarted = false;
 
     public configuration = {} as ConfigurationMV2Context;
-
-    // Static methods for MV3
-    public static setLocalScriptRules: Mock = vi.fn();
-
-    public static syncRuleSetWithIdbByFilterId = vi.fn(() => Promise.resolve());
 
     public start: Mock = vi.fn(async () => {
         this.isStarted = true;
@@ -145,6 +92,4 @@ export class MockedTsWebExtension {
     public setSendDoNotTrack: Mock = vi.fn();
 
     public setBlockWebRTC: Mock = vi.fn();
-
-    public initStorage = vi.fn(() => Promise.resolve());
 }

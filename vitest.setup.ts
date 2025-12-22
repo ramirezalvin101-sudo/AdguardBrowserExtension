@@ -33,9 +33,6 @@ import {
     MockedTsWebExtensionMV3,
     mockLocalStorage,
     mockXhrRequests,
-    createMockTabsApi,
-    createMockDefaultFilteringLog,
-    createMockCompaniesDbService,
 } from './tests/helpers';
 import { mockGlobalFetch } from './tests/helpers/mocks/fetch';
 
@@ -94,62 +91,17 @@ vi.mock('nanoid', () => ({
 // Mock log to hide all logger message
 vi.mock('./Extension/src/common/logger.ts');
 
-vi.mock('@adguard/tswebextension', async () => {
-    const actual = await vi.importActual('@adguard/tswebextension') as any;
-    const tsurlfilter = await vi.importActual('@adguard/tsurlfilter') as any;
-    return {
-        ...actual,
-        TsWebExtension: MockedTsWebExtension,
-        isExtensionUrl: vi.fn((url: string) => url.startsWith(EXTENSION_URL_PREFIX)),
-        // ConvertedFilterList is actually from @adguard/tsurlfilter
-        ConvertedFilterList: tsurlfilter.ConvertedFilterList,
-        // Utility functions that are re-exported
-        getDomain: actual.getDomain,
-        isHttpRequest: actual.isHttpRequest,
-        MAIN_FRAME_ID: actual.MAIN_FRAME_ID,
-        FilteringEventType: actual.FilteringEventType,
-        RequestEvents: actual.RequestEvents,
-        // Mock tabsApi
-        tabsApi: createMockTabsApi(),
-        // Mock defaultFilteringLog
-        defaultFilteringLog: createMockDefaultFilteringLog(),
-        // Mock companiesDbService
-        companiesDbService: createMockCompaniesDbService(),
-    };
-});
+vi.mock('@adguard/tswebextension', async () => ({
+    ...(await vi.importActual('@adguard/tswebextension')),
+    TsWebExtension: MockedTsWebExtension,
+    isExtensionUrl: vi.fn((url: string) => url.startsWith(EXTENSION_URL_PREFIX)),
+}));
 
-// Mock for MV3 version of tswebextension
-// We manually construct the mock to avoid Zod initialization issues and linked package resolution
-vi.mock('@adguard/tswebextension/mv3', async () => {
-    const tsurlfilter = await vi.importActual('@adguard/tsurlfilter') as any;
-    // Import MV3 actual for utility functions and constants
-    let mv3Actual: any;
-    try {
-        mv3Actual = await vi.importActual('@adguard/tswebextension/mv3');
-    } catch (e) {
-        // If linked package fails to load, use empty object and we'll set functions to undefined
-        mv3Actual = {};
-    }
-    return {
-        TsWebExtension: MockedTsWebExtensionMV3,
-        isExtensionUrl: vi.fn((url: string) => url.startsWith(EXTENSION_URL_PREFIX)),
-        ConvertedFilterList: tsurlfilter.ConvertedFilterList,
-        // Re-export common constants and types that may be needed
-        MESSAGE_HANDLER_NAME: 'tsWebExtension',
-        // Utility functions
-        getDomain: mv3Actual.getDomain,
-        isHttpRequest: mv3Actual.isHttpRequest,
-        MAIN_FRAME_ID: mv3Actual.MAIN_FRAME_ID,
-        FilteringEventType: mv3Actual.FilteringEventType,
-        RequestEvents: mv3Actual.RequestEvents,
-        // Mock tabsApi
-        tabsApi: createMockTabsApi(),
-        // Mock defaultFilteringLog
-        defaultFilteringLog: createMockDefaultFilteringLog(),
-        // Mock companiesDbService
-        companiesDbService: createMockCompaniesDbService(),
-    };
-});
+vi.mock('@adguard/tswebextension/mv3', async () => ({
+    ...(await vi.importActual('@adguard/tswebextension/mv3')),
+    TsWebExtension: MockedTsWebExtensionMV3,
+    isExtensionUrl: vi.fn((url: string) => url.startsWith(EXTENSION_URL_PREFIX)),
+}));
 
 vi.mock('lodash-es', async () => ({
     ...await vi.importActual('lodash-es'),
