@@ -21,7 +21,7 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { ConvertedFilterList } from '@adguard/tsurlfilter';
+import { FilterList } from '@adguard/tsurlfilter';
 import { type Configuration } from '@adguard/tswebextension/mv3';
 
 /* eslint-disable @typescript-eslint/naming-convention */
@@ -35,7 +35,7 @@ export const TESTCASES_BASE_URL = 'https://testcases.agrd.dev';
 
 export const TESTCASES_DATA_PATH = '/data.json';
 
-const userRulesFilter = ConvertedFilterList.createEmpty();
+const userRulesFilter = FilterList.createEmpty();
 
 export const DEFAULT_EXTENSION_CONFIG: Configuration = {
     staticFiltersIds: [],

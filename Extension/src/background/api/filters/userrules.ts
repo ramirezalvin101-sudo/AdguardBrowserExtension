@@ -18,7 +18,7 @@
  * along with AdGuard Browser Extension. If not, see <http://www.gnu.org/licenses/>.
  */
 import {
-    ConvertedFilterList,
+    FilterList,
     RuleSyntaxUtils,
     findNextLineBreakIndex,
 } from '@adguard/tsurlfilter';
@@ -57,7 +57,7 @@ export class UserRulesApi {
             if (!(await FiltersStorage.has(AntiBannerFiltersId.UserFilterId))) {
                 await FiltersStorage.set(
                     AntiBannerFiltersId.UserFilterId,
-                    ConvertedFilterList.createEmpty(),
+                    FilterList.createEmpty(),
                 );
             } else {
                 // In this case zod will validate the data.
@@ -69,7 +69,7 @@ export class UserRulesApi {
             }
             await FiltersStorage.set(
                 AntiBannerFiltersId.UserFilterId,
-                ConvertedFilterList.createEmpty(),
+                FilterList.createEmpty(),
             );
         }
     }
@@ -128,11 +128,11 @@ export class UserRulesApi {
      *
      * @returns User rules list.
      */
-    public static async getUserRules(): Promise<ConvertedFilterList> {
+    public static async getUserRules(): Promise<FilterList> {
         const data = await FiltersStorage.get(AntiBannerFiltersId.UserFilterId);
 
         if (!data) {
-            return new ConvertedFilterList('', ConvertedFilterList.createEmptyConversionData());
+            return FilterList.createEmpty();
         }
 
         return data;

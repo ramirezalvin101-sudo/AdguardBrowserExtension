@@ -28,7 +28,7 @@ import {
     type MessageHandler,
     type Message as EngineMessage,
     type ConfigurationResult,
-    ConvertedFilterList,
+    FilterList,
 } from '@adguard/tswebextension/mv3';
 
 import { logger } from '../../common/logger';
@@ -219,12 +219,12 @@ export class Engine implements TsWebExtensionEngine {
             }
         }
 
-        let userRulesFilter: ConvertedFilterList;
+        let userRulesFilter: FilterList;
 
         if (UserRulesApi.isEnabled()) {
             userRulesFilter = await UserRulesApi.getUserRules();
         } else {
-            userRulesFilter = ConvertedFilterList.createEmpty();
+            userRulesFilter = FilterList.createEmpty();
         }
 
         const userrules: Configuration['userrules'] = {
@@ -286,16 +286,16 @@ export class Engine implements TsWebExtensionEngine {
                 .filter((f) => CustomFilterApi.isCustomFilterMetadata(f));
 
             customFilters = await Promise.all(customFiltersWithMetadata.map(async ({ filterId, trusted }) => {
-                let convertedFilterList = await FiltersStorage.get(filterId);
+                let filterList = await FiltersStorage.get(filterId);
 
-                if (!convertedFilterList) {
-                    convertedFilterList = ConvertedFilterList.createEmpty();
+                if (!filterList) {
+                    filterList = FilterList.createEmpty();
                 }
 
                 return {
                     filterId,
-                    content: convertedFilterList.getContent(),
-                    conversionData: convertedFilterList.getConversionData(),
+                    content: filterList.getContent(),
+                    conversionData: filterList.getConversionData(),
                     trusted,
                 };
             }));

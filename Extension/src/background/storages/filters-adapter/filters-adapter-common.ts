@@ -18,7 +18,7 @@
  * along with AdGuard Browser Extension. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { type ConversionData, ConvertedFilterList } from '@adguard/tsurlfilter';
+import { type ConversionData, FilterList } from '@adguard/tsurlfilter';
 
 import { logger } from '../../../common/logger';
 import { FiltersStorage as BrowserExtensionFiltersStorage } from '../filters';
@@ -34,7 +34,7 @@ export class FiltersStoragesAdapterCommon {
      * @param filterId Filter id.
      * @param filter Raw filter list or preprocessed filter list.
      */
-    public static async set(filterId: number, filter: string | ConvertedFilterList): Promise<void> {
+    public static async set(filterId: number, filter: string | FilterList): Promise<void> {
         try {
             await BrowserExtensionFiltersStorage.set(filterId, filter);
         } catch (error: unknown) {
@@ -61,7 +61,7 @@ export class FiltersStoragesAdapterCommon {
      *
      * @returns Preprocessed filter list or `undefined` if the filter list does not exist.
      */
-    public static async get(filterId: number): Promise<ConvertedFilterList | undefined> {
+    public static async get(filterId: number): Promise<FilterList | undefined> {
         // eslint-disable-next-line prefer-const
         let [filterContent, conversionData] = await Promise.all([
             FiltersStoragesAdapterCommon.getFilterContent(filterId),
@@ -73,10 +73,10 @@ export class FiltersStoragesAdapterCommon {
         }
 
         if (conversionData === undefined) {
-            conversionData = ConvertedFilterList.createEmptyConversionData();
+            conversionData = FilterList.createEmptyConversionData();
         }
 
-        return new ConvertedFilterList(filterContent, conversionData);
+        return new FilterList(filterContent, conversionData);
     }
 
     /**
@@ -118,12 +118,12 @@ export class FiltersStoragesAdapterCommon {
      * @returns Promise, resolved with original user rules strings.
      */
     static async getOriginalFilterList(filterId: number): Promise<string | undefined> {
-        const convertedFilterList = await FiltersStoragesAdapterCommon.get(filterId);
+        const filterList = await FiltersStoragesAdapterCommon.get(filterId);
 
-        if (convertedFilterList === undefined) {
+        if (filterList === undefined) {
             return undefined;
         }
 
-        return convertedFilterList.getOriginalContent();
+        return filterList.getOriginalContent();
     }
 }

@@ -20,7 +20,7 @@
 
 import { isString } from 'lodash-es';
 
-import { type ConversionData, ConvertedFilterList } from 'tswebextension';
+import { type ConversionData, FilterList } from 'tswebextension';
 
 import { hybridStorage } from './shared-instances';
 
@@ -55,11 +55,11 @@ export class FiltersStorage {
      *
      * @throws Error if the transaction failed.
      */
-    public static async set(filterId: number, filter: string | ConvertedFilterList): Promise<void> {
-        let converted: ConvertedFilterList;
+    public static async set(filterId: number, filter: string | FilterList): Promise<void> {
+        let converted: FilterList;
 
         if (isString(filter)) {
-            converted = new ConvertedFilterList(filter);
+            converted = new FilterList(filter);
         } else {
             converted = filter;
         }
@@ -93,7 +93,7 @@ export class FiltersStorage {
      *
      * @returns Preprocessed filter list or `undefined` if the filter list does not exist.
      */
-    static async get(filterId: number): Promise<ConvertedFilterList | undefined> {
+    static async get(filterId: number): Promise<FilterList | undefined> {
         // eslint-disable-next-line prefer-const
         let [filterContent, conversionData] = await Promise.all([
             FiltersStorage.getFilterContent(filterId),
@@ -105,10 +105,10 @@ export class FiltersStorage {
         }
 
         if (conversionData === undefined) {
-            conversionData = ConvertedFilterList.createEmptyConversionData();
+            conversionData = FilterList.createEmptyConversionData();
         }
 
-        return new ConvertedFilterList(filterContent, conversionData);
+        return new FilterList(filterContent, conversionData);
     }
 
     /**

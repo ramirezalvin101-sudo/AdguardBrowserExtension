@@ -26,7 +26,7 @@ import {
     MESSAGE_HANDLER_NAME,
     createTsWebExtension,
     type Message as EngineMessage,
-    ConvertedFilterList,
+    FilterList,
 } from '@adguard/tswebextension';
 
 import { logger } from '../../common/logger';
@@ -158,12 +158,12 @@ export class Engine implements TsWebExtensionEngine {
 
         const trustedDomains = await DocumentBlockApi.getTrustedDomains();
 
-        let userrules: ConvertedFilterList;
+        let userrules: FilterList;
 
         if (UserRulesApi.isEnabled()) {
             userrules = await UserRulesApi.getUserRules();
         } else {
-            userrules = ConvertedFilterList.createEmpty();
+            userrules = FilterList.createEmpty();
         }
 
         const result: ConfigurationMV2 = {

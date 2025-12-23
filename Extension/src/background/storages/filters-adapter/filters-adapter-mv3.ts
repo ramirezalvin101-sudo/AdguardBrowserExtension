@@ -23,7 +23,7 @@ import browser from 'webextension-polyfill';
 import { FiltersStorage as TsWebExtensionFiltersStorage } from '@adguard/tswebextension/filters-storage';
 import { extractRuleSetId } from '@adguard/tsurlfilter/es/declarative-converter-utils';
 import { METADATA_RULESET_ID } from '@adguard/tsurlfilter/es/declarative-converter';
-import { type ConversionData, type ConvertedFilterList } from '@adguard/tsurlfilter';
+import { type ConversionData, type FilterList } from '@adguard/tsurlfilter';
 
 import { FiltersStorage as BrowserExtensionFiltersStorage } from '../filters';
 import { logger } from '../../../common/logger';
@@ -65,7 +65,7 @@ export class FiltersStoragesAdapter extends FiltersStoragesAdapterCommon {
      * @param filterId Filter id.
      * @param filter Raw filter list or preprocessed filter list.
      */
-    public static async set(filterId: number, filter: string | ConvertedFilterList): Promise<void> {
+    public static async set(filterId: number, filter: string | FilterList): Promise<void> {
         // Do not allow to modify static filters in MV3.
         if (FiltersStoragesAdapter.isStaticFilterId(filterId)) {
             logger.error(`[ext.FiltersStoragesAdapter.set]: filter id ${filterId} is a static filter id, modifying it is not allowed from the extension.`);

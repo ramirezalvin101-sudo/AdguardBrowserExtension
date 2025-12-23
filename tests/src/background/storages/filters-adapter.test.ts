@@ -31,7 +31,7 @@ import {
 
 import { getRuleSetId, getRuleSetPath } from '@adguard/tsurlfilter/es/declarative-converter-utils';
 import { FiltersStorage as TsWebExtensionFiltersStorage } from '@adguard/tswebextension/filters-storage';
-import { ConvertedFilterList } from '@adguard/tsurlfilter';
+import { FilterList } from '@adguard/tsurlfilter';
 
 import { mockLocalStorage } from '../../../helpers';
 import { FiltersStoragesAdapter } from '../../../../Extension/src/background/storages/filters-adapter';
@@ -47,7 +47,7 @@ const rawFilter = [
     'example.com##.ad',
 ].join('\n');
 
-const filter = new ConvertedFilterList(rawFilter);
+const filter = new FilterList(rawFilter);
 
 describe.skipIf(__IS_MV3__)('FiltersStoragesAdapter (MV2)', () => {
     let localStorage: Storage.StorageArea;

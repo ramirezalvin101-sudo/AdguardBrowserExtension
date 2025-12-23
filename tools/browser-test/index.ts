@@ -34,7 +34,7 @@ import unzipper from 'unzipper';
  * Direct import from tsurlfilter instead of tswebextension, because tsurlfilter
  * has exported cjs builds, which is required in node environment.
  */
-import { ConvertedFilterList } from '@adguard/tsurlfilter';
+import { FilterList } from '@adguard/tsurlfilter';
 import { type Configuration } from '@adguard/tswebextension/mv3';
 
 import { BuildTargetEnv } from '../../constants';
@@ -152,7 +152,7 @@ const passUserRulesToServiceWorker = async (
 ): Promise<void> => {
     // Preprocess user rules earlier in order not to do it during
     // backgroundPage.evaluate().
-    const userrulesFilter = new ConvertedFilterList(userrulesStr);
+    const userrulesFilter = new FilterList(userrulesStr);
 
     const configuration: Configuration = {
         ...DEFAULT_EXTENSION_CONFIG,
