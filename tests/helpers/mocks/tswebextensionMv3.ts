@@ -101,6 +101,8 @@ export class MockedTsWebExtensionMV3 {
 
     public retrieveRuleText = vi.fn(() => null);
 
+    public retrieveOriginalRuleText = vi.fn(() => null);
+
     public onFilteringLogEvent = new MockedEventCannel() as unknown as EventChannel<any>;
 
     public onAssistantCreateRule = new MockedEventCannel() as unknown as EventChannel<string>;

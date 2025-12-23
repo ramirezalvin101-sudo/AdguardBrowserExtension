@@ -40,7 +40,6 @@ import {
     SettingsApi,
     DocumentBlockApi,
     network,
-    filteringLogApi,
 } from '../api';
 import { NotifierType } from '../../common/constants';
 
@@ -93,8 +92,6 @@ export class Engine implements TsWebExtensionEngine {
         logger.info(`[ext.Engine.start]: tswebextension is started. Rules count: ${rulesCount}`);
         // TODO: remove after frontend refactoring
         notifier.notifyListeners(NotifierType.RequestFilterUpdated);
-
-        filteringLogApi.onEngineUpdated(configuration.settings.allowlistInverted);
     }
 
     /**
@@ -111,8 +108,6 @@ export class Engine implements TsWebExtensionEngine {
         logger.info(`[ext.Engine.update]: tswebextension configuration is updated. Rules count: ${rulesCount}`);
         // TODO: remove after frontend refactoring
         notifier.notifyListeners(NotifierType.RequestFilterUpdated);
-
-        filteringLogApi.onEngineUpdated(configuration.settings.allowlistInverted);
     }
 
     /**
