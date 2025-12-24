@@ -43,7 +43,7 @@ export class PopupStore extends PopupStoreCommon {
     updateNotification: NotificationParams | null = null;
 
     @observable
-    isExtensionUpdateAvailable = false;
+    isExtensionUpdateAvailable: boolean | null = null;
 
     /**
      * Whether the extension update is checking or is updating now.

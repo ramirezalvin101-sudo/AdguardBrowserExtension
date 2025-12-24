@@ -69,6 +69,10 @@ export const UpdateButton = observer(() => {
         store.setIsExtensionCheckingUpdateOrUpdating(false);
     };
 
+    if (isExtensionUpdateAvailable === null) {
+        return null;
+    }
+
     if (isExtensionUpdateAvailable) {
         return (
             <UpdateButtonCommon
