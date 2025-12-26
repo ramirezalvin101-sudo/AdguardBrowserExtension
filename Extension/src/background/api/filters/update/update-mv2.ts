@@ -17,7 +17,6 @@
  * You should have received a copy of the GNU General Public License
  * along with AdGuard Browser Extension. If not, see <http://www.gnu.org/licenses/>.
  */
-// TODO (AG-44868): Reduce code duplication across mv2 and mv3
 import { filterVersionStorage, settingsStorage } from '../../../storages';
 import { SettingOption } from '../../../schema';
 import { DEFAULT_FILTERS_UPDATE_PERIOD } from '../../../../common/settings';
@@ -170,8 +169,6 @@ export class FilterUpdateApi {
         if (updatedFilters.length > 0) {
             engine.debounceUpdate();
 
-            // set last update time only for MV2
-            // because there is no ability to update filters with patches in MV3
             await FilterUpdateService.setLastUpdateTimeMs(Date.now());
         }
 
@@ -328,15 +325,6 @@ export class FilterUpdateApi {
             // If it is time to check the renewal, add to the array.
             return lastCheckTime + updatePeriod <= Date.now();
         });
-    }
-
-    /**
-     * Dummy method, added for backward compatibility with other modules.
-     * TODO: Remove in AG-44868.
-     */
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    public static async updateCustomFilters(): Promise<void> {
-        throw new Error('Not implemented');
     }
 }
 
