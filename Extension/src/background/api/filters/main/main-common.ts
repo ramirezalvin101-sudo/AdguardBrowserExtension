@@ -317,14 +317,12 @@ export abstract class FiltersApiCommon {
      * @param enableGroups Whether to enable untouched groups.
      */
     protected static async afterLoadAndEnable(
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        /* eslint-disable @typescript-eslint/no-unused-vars */
         loadedFilters: number[],
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         alreadyLoadedFilterIds: number[],
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         remote: boolean,
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         enableGroups: boolean,
+        /* eslint-enable @typescript-eslint/no-unused-vars */
     ): Promise<void> {
         throw new NotImplementedError();
     }

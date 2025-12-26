@@ -38,8 +38,13 @@ export class FiltersApi extends FiltersApiCommon {
         enableGroups: boolean,
     ): Promise<void> {
         if (!remote) {
+            // Update the enabled filters only if loading happens from local resources.
+            // When loading from remote resources, the filters are already up-to-date,
+            // except for the previously loaded filters, which we update below.
             await FilterUpdateApi.checkForFiltersUpdates(loadedFilters);
         } else if (alreadyLoadedFilterIds.length > 0) {
+            // Update previously loaded filters because they won't be loaded,
+            // but still need to be updated to the latest versions.
             await FilterUpdateApi.checkForFiltersUpdates(alreadyLoadedFilterIds);
         }
 
