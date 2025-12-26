@@ -2,8 +2,7 @@
     "extends": "./tsconfig.base.json",
     "exclude": [
         "**/*-mv2.ts",
-        "**/*-mv2.tsx",
-        "**/*-mv2.test.ts"
+        "**/*-mv2.tsx"
     ],
     "compilerOptions": {
         "composite": true,
